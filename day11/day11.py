@@ -1,13 +1,5 @@
-import contextlib
-import collections
-import copy
-import functools
-import itertools
-import numpy as np
-import pandas as pd
-import re
-
 import advent_tools
+
 
 def move_dir(x, y, direction):
     if direction == 'n':
@@ -28,17 +20,25 @@ def move_dir(x, y, direction):
         y = y + 1
     return x, y
 
+
 def run_part_1():
     x = 0
     y = 0
     for line in advent_tools.read_whole_input().split(','):
         x, y = move_dir(x, y, line)
-    print(x, y)
-
+    return abs(x) + max(0, (abs(y)- abs(x))/2)
 
 
 def run_part_2():
-    pass
+    x = 0
+    y = 0
+    max_steps = 813
+    for line in advent_tools.read_whole_input().split(','):
+        x, y = move_dir(x, y, line)
+        num_steps = abs(x) + max(0, (abs(y)- abs(x))/2)
+        if num_steps > max_steps:
+            max_steps = num_steps
+    return max_steps
 
 
 if __name__ == '__main__':
