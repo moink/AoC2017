@@ -9,6 +9,8 @@ import itertools
 import os
 import shutil
 import urllib.request
+import sys
+sys.setrecursionlimit(10000)
 
 import scipy
 from matplotlib import pyplot as plt
@@ -673,6 +675,47 @@ def chunk_iterable(iterable, chunk_size):
     """
     for result in itertools.zip_longest(*[iter(iterable)] * chunk_size):
         yield result
+
+
+def get_inside_outside_brackets(data, start_char, end_char):
+    outside = ['']
+    inside = []
+    in_brackets = False
+    count = 0
+    for pos, char in enumerate(data):
+        if in_brackets:
+            if char == end_char:
+                count = count - 1
+                if count == 0:
+                    in_brackets = False
+                    outside.append('')
+                else:
+                    inside[-1] = inside[-1] + (char)
+            else:
+                inside[-1] = inside[-1] + (char)
+                if char == start_char:
+                    count = count + 1
+        elif char == start_char:
+            count = 1
+            in_brackets = True
+            inside.append('')
+        else:
+            outside[-1] = outside[-1] + char
+    outside = [item for item in outside if item]
+    return inside, outside
+
+def recursive_inside_outside(data, start_char, end_char):
+    inside, outside = get_inside_outside_brackets(data, start_char, end_char)
+    inside_full = []
+    for inside_part in inside:
+        if start_char in inside_part:
+            inside_full.append(recursive_inside_outside(inside_part,
+                                                        start_char, end_char))
+        else:
+            inside_full.append(inside_part)
+    return {'outside' : outside, 'inside': inside_full}
+
+
 
 if __name__ == '__main__':
     # start_coding_today()
