@@ -1,12 +1,3 @@
-import contextlib
-import collections
-import copy
-import functools
-import itertools
-import numpy as np
-import pandas as pd
-import re
-
 import advent_tools
 
 
@@ -48,7 +39,6 @@ def check_balance(weights, children, start_node):
     return sum(child_weights.values()) + weights[start_node]
 
 
-
 def run_part_2():
     weights = {}
     children = {}
@@ -62,7 +52,6 @@ def run_part_2():
         weight = int(whole_weight[1:-1])
         weights[name] = weight
     check_balance(weights, children, 'dtacyn')
-    # check_balance(weights, children, 'tknk')
 
 
 if __name__ == '__main__':

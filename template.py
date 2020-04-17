@@ -19,5 +19,5 @@ def run_part_2():
 
 
 if __name__ == '__main__':
-    run_part_1()
-    run_part_2()
+    print(run_part_1())
+    print(run_part_2())

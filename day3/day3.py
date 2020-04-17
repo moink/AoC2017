@@ -1,14 +1,6 @@
-import contextlib
-import collections
-import copy
-import functools
 import itertools
-import math
-import numpy as np
-import pandas as pd
-import re
 
-import advent_tools
+import numpy as np
 
 
 def run_part_1():
@@ -44,7 +36,6 @@ def run_part_1():
 
 def run_part_2():
     my_input = 368078
-    cc = itertools.count()
     grid = np.zeros((100, 100))
     x = 0
     y = 0
@@ -53,36 +44,36 @@ def run_part_2():
     while True:
         for s in range(step):
             x = x + 1
-            n = sum(
-                grid[x + a, y + b] for a in [49, 50, 51] for b in [49, 50, 51])
-            grid[x + 50, y + 50] = n
-            if n >= my_input:
-                return n
+            val = sum_neighbours(grid, x, y)
+            grid[x + 50, y + 50] = val
+            if val >= my_input:
+                return val
         for s in range(step):
             y = y + 1
-            n = sum(
-                grid[x + a, y + b] for a in [49, 50, 51] for b in [49, 50, 51])
-            grid[x + 50, y + 50] = n
-            if n >= my_input:
-                return n
+            val = sum_neighbours(grid, x, y)
+            grid[x + 50, y + 50] = val
+            if val >= my_input:
+                return val
         for s in range(step + 1):
             x = x - 1
-            n = sum(
-                grid[x + a, y + b] for a in [49, 50, 51] for b in [49, 50, 51])
-            grid[x + 50, y + 50] = n
-            if n >= my_input:
-                return n
+            val = sum_neighbours(grid, x, y)
+            grid[x + 50, y + 50] = val
+            if val >= my_input:
+                return val
         for s in range(step + 1):
             y = y - 1
-            n = sum(
-                grid[x + a, y + b] for a in [49, 50, 51] for b in [49, 50, 51])
-            grid[x + 50, y + 50] = n
-            if n >= my_input:
-                return n
+            val = sum_neighbours(grid, x, y)
+            grid[x + 50, y + 50] = val
+            if val >= my_input:
+                return val
         step = step + 2
 
 
+def sum_neighbours(grid, x, y):
+    n = sum(grid[x + a, y + b] for a in [49, 50, 51] for b in [49, 50, 51])
+    return n
+
+
 if __name__ == '__main__':
-    # print(math.sqrt(368078))
-    # print(run_part_1())
+    print(run_part_1())
     print(run_part_2())

@@ -1,48 +1,20 @@
-import contextlib
-import collections
-import copy
-import functools
-import itertools
-import numpy as np
-import pandas as pd
-import re
-
 import advent_tools
 
-def score(num, data):
-    if '{' not in data:
-        return num
-    count = 1
-    if data.startswith('{'):
-        inside = ''
-        for pos, char in enumerate(data[1:]):
-            if char == '{':
-                count = count + 1
-            elif char == '}':
-                count = count - 1
-                if count == 0:
-                    return score(num + 1, inside) + score(num, data[pos+1:])
-            inside = inside + char
-    else:
-        return score(num, '{' + data.split('{', maxsplit=1)[1])
-    return 0
+def total_score(data):
+    split = advent_tools.recursive_inside_outside(data, '{', '}')
+    return score(0, split)
 
+def score(num, data):
+    result = num
+    if isinstance(data, dict):
+        result = result + sum(score(num + 1, item) for item in data['inside'])
+    return result
 
 def remove_garbage(data):
-    count = 0
-    in_angle = False
-    result = ''
-    for char in data:
-        if in_angle:
-            if char == '>':
-                in_angle = False
-            else:
-                count = count + 1
-        else:
-            if char == '<':
-                in_angle = True
-            else:
-                result = result + char
+    inside, outside = advent_tools.get_inside_outside_brackets(
+        data, '<', '>', False)
+    result = ''.join(outside)
+    count = sum(len(item) for item in inside)
     return result, count
 
 def clean_ex(data):
@@ -51,21 +23,12 @@ def clean_ex(data):
         data = data[:pos] + data[pos+2:]
     return data
 
-def run_part_1():
+def run_both_parts():
     data = advent_tools.read_whole_input()
-    # data = '{{<!!>},{<!!>},{<!!>},{<!!>}}'
     data = clean_ex(data)
     data, count = remove_garbage(data)
-    # print(score(0, data))
-    # print(count)
-    print(advent_tools.recursive_inside_outside(data, '{', '}'))
-    #1325 is too low
-
-
-def run_part_2():
-    pass
-
+    print('Part 1:', total_score(data))
+    print('Part 2:', count)
 
 if __name__ == '__main__':
-    run_part_1()
-    run_part_2()
+    run_both_parts()

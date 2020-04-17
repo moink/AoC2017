@@ -1,12 +1,3 @@
-import contextlib
-import collections
-import copy
-import functools
-import itertools
-import numpy as np
-import pandas as pd
-import re
-
 import advent_tools
 
 class TheComputer(advent_tools.Computer):

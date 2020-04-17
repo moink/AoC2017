@@ -9,8 +9,7 @@ import itertools
 import os
 import shutil
 import urllib.request
-import sys
-sys.setrecursionlimit(10000)
+
 
 import scipy
 from matplotlib import pyplot as plt
@@ -677,7 +676,7 @@ def chunk_iterable(iterable, chunk_size):
         yield result
 
 
-def get_inside_outside_brackets(data, start_char, end_char):
+def get_inside_outside_brackets(data, start_char, end_char, match=True):
     outside = ['']
     inside = []
     in_brackets = False
@@ -686,7 +685,7 @@ def get_inside_outside_brackets(data, start_char, end_char):
         if in_brackets:
             if char == end_char:
                 count = count - 1
-                if count == 0:
+                if count == 0 or not match:
                     in_brackets = False
                     outside.append('')
                 else:
