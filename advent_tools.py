@@ -676,7 +676,28 @@ def chunk_iterable(iterable, chunk_size):
         yield result
 
 
-def get_inside_outside_brackets(data, start_char, end_char, match=True):
+def get_inside_outside_brackets(data, start_char, end_char, nested=True):
+    """Split string into portions inside and outside delimiters
+
+    Args:
+        data: str
+            The string to parse
+        start_char: str
+            Character indicating the beginning of a delimited string
+        end_char: str
+            Character indicating the end of a delimited string
+        nested: bool
+            Optional, default True. Whether delimited strings can be nested.
+            If True, this method counts the number of start_char and end_char,
+            and only ends the delimited string when the number of end_char
+            reaches the number of start_char. If False, the first end_char
+            ends the delimited string.
+
+    Returns:
+        inside, outside: ([str], [str])
+            Lists of strings that appear inside and outside the delimiters,
+            respectively
+    """
     outside = ['']
     inside = []
     in_brackets = False
@@ -685,7 +706,7 @@ def get_inside_outside_brackets(data, start_char, end_char, match=True):
         if in_brackets:
             if char == end_char:
                 count = count - 1
-                if count == 0 or not match:
+                if count == 0 or not nested:
                     in_brackets = False
                     outside.append('')
                 else:
@@ -704,6 +725,23 @@ def get_inside_outside_brackets(data, start_char, end_char, match=True):
     return inside, outside
 
 def recursive_inside_outside(data, start_char, end_char):
+    """Recursively break up nested delimited strings
+
+    Args:
+        data: str
+            The string to parse
+        start_char: str
+            Character indicating the beginning of a delimited string
+        end_char: str
+            Character indicating the end of a delimited string
+
+    Returns: {str: [Object]}
+        Keys are 'inside' and 'outside'. Value of 'outside' is a list
+        containing strings that appear outside the delimited portion. The
+        'inside' key contains a list of mixed strings (strings that appear
+        inside singly-delimited portions of text) and dictionaries,
+        which are the result of calling this method on the portion of the
+    """
     inside, outside = get_inside_outside_brackets(data, start_char, end_char)
     inside_full = []
     for inside_part in inside:
@@ -712,7 +750,7 @@ def recursive_inside_outside(data, start_char, end_char):
                                                         start_char, end_char))
         else:
             inside_full.append(inside_part)
-    return {'outside' : outside, 'inside': inside_full}
+    return {'outside': outside, 'inside': inside_full}
 
 
 

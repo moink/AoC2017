@@ -8,11 +8,13 @@ def score(num, data):
     result = num
     if isinstance(data, dict):
         result = result + sum(score(num + 1, item) for item in data['inside'])
+    else:
+        return num
     return result
 
 def remove_garbage(data):
-    inside, outside = advent_tools.get_inside_outside_brackets(
-        data, '<', '>', False)
+    inside, outside = advent_tools.get_inside_outside_brackets(data, '<', '>',
+                                                               False)
     result = ''.join(outside)
     count = sum(len(item) for item in inside)
     return result, count
