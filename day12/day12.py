@@ -3,28 +3,12 @@ import collections
 import advent_tools
 
 
-def run_part_1():
+def read_data():
     data2 = advent_tools.dict_from_input_file('<->')
     data = {}
     for k, v in data2.items():
         data[int(k)] = [int(num) for num in v.split(',')]
-    connected_set = find_connected_set(data, 0)
-    return(len(connected_set))
-
-
-def run_part_2():
-    data2 = advent_tools.dict_from_input_file('<->')
-    data = {}
-    for k, v in data2.items():
-        data[int(k)] = [int(num) for num in v.split(',')]
-    count = 0
-    unlinked = set(data.keys())
-    while unlinked:
-        count = count + 1
-        root_node = unlinked.pop()
-        connected_set = find_connected_set(data, root_node)
-        unlinked = unlinked.difference(connected_set)
-    return count
+    return data
 
 
 def find_connected_set(connections, root_node):
@@ -37,6 +21,24 @@ def find_connected_set(connections, root_node):
                 connected_set.add(newnode)
                 queue.append(newnode)
     return connected_set
+
+
+def run_part_1():
+    data = read_data()
+    connected_set = find_connected_set(data, 0)
+    return(len(connected_set))
+
+
+def run_part_2():
+    data = read_data()
+    count = 0
+    unlinked = set(data.keys())
+    while unlinked:
+        count = count + 1
+        root_node = unlinked.pop()
+        connected_set = find_connected_set(data, root_node)
+        unlinked = unlinked.difference(connected_set)
+    return count
 
 
 if __name__ == '__main__':
