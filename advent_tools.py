@@ -676,5 +676,5 @@ def chunk_iterable(iterable, chunk_size):
 
 if __name__ == '__main__':
     # start_coding_today()
-    today = 5
+    today = 7
     start_coding(today)
