@@ -1,11 +1,4 @@
-import contextlib
 import collections
-import copy
-import functools
-import itertools
-import numpy as np
-import pandas as pd
-import re
 
 import advent_tools
 
@@ -15,16 +8,8 @@ def run_part_1():
     data = {}
     for k, v in data2.items():
         data[int(k)] = [int(num) for num in v.split(',')]
-    connected_set = {0}
-    queue = collections.deque([0])
-    while queue:
-        node = queue.popleft()
-        for newnode in data[node]:
-            if newnode not in connected_set:
-                connected_set.add(newnode)
-                queue.append(newnode)
+    connected_set = find_connected_set(data, 0)
     return(len(connected_set))
-
 
 
 def run_part_2():
@@ -37,17 +22,21 @@ def run_part_2():
     while unlinked:
         count = count + 1
         root_node = unlinked.pop()
-        connected_set = {root_node}
-        queue = collections.deque([root_node])
-        while queue:
-            node = queue.popleft()
-            for newnode in data[node]:
-                if newnode not in connected_set:
-                    connected_set.add(newnode)
-                    queue.append(newnode)
+        connected_set = find_connected_set(data, root_node)
         unlinked = unlinked.difference(connected_set)
     return count
 
+
+def find_connected_set(connections, root_node):
+    connected_set = {root_node}
+    queue = collections.deque([root_node])
+    while queue:
+        node = queue.popleft()
+        for newnode in connections[node]:
+            if newnode not in connected_set:
+                connected_set.add(newnode)
+                queue.append(newnode)
+    return connected_set
 
 
 if __name__ == '__main__':
