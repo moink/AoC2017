@@ -87,7 +87,6 @@ def main():
     computer_two.registers['p'] = 1
     instructions = advent_tools.read_input_lines()
     loop = asyncio.get_event_loop()
-
     run_one = loop.create_task(computer_one.run_program(instructions))
     run_two = loop.create_task(computer_two.run_program(instructions))
     blocker = loop.create_task(block_detect(one_to_two, two_to_one))

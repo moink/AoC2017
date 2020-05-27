@@ -7,6 +7,7 @@ import datetime
 import hashlib
 import itertools
 import os
+import re
 import shutil
 import urllib.request
 
@@ -89,6 +90,17 @@ def read_input_lines():
     """
     with open('input.txt') as in_file:
         data = in_file.read().strip().splitlines()
+    return data
+
+def read_input_no_strip():
+    """Open today's input data and return it as a list of lines
+
+    Returns:
+        [str]
+            Lines in 'input.txt'
+    """
+    with open('input.txt') as in_file:
+        data = in_file.read().splitlines()
     return data
 
 
@@ -204,7 +216,7 @@ class PlottingGrid:
         Returns:
 
         """
-        lines = read_input_lines()
+        lines = read_input_no_strip()
         for y_pos, line in enumerate(lines):
             for x_pos, char in enumerate(line):
                 self.grid[y_pos, x_pos] = char_map[char]
@@ -753,8 +765,16 @@ def recursive_inside_outside(data, start_char, end_char):
     return {'outside': outside, 'inside': inside_full}
 
 
+def read_all_integers():
+    result = []
+    for line in read_input_lines():
+        num_strings = re.findall(r'-?[0-9]+', line)
+        nums = [int(num_str) for num_str in num_strings]
+        result.append(nums)
+    return result
+
 
 if __name__ == '__main__':
     # start_coding_today()
-    today = 18
+    today = 20
     start_coding(today)
