@@ -203,7 +203,7 @@ class PlottingGrid:
             shape: (int, int)
                 Number of rows and number of columns in the grid
         """
-        self.grid = np.zeros(shape)
+        self.grid = np.zeros(shape, dtype=int)
 
     def read_input_file(self, char_map):
         """Read and store the grid from today's input file
@@ -766,6 +766,12 @@ def recursive_inside_outside(data, start_char, end_char):
 
 
 def read_all_integers():
+    """Read all the integers on each line of the input file
+
+    Returns:
+        integers: [[int]]
+            All integers on each line of today's input file
+    """
     result = []
     for line in read_input_lines():
         num_strings = re.findall(r'-?[0-9]+', line)
@@ -776,5 +782,5 @@ def read_all_integers():
 
 if __name__ == '__main__':
     # start_coding_today()
-    today = 20
+    today = 21
     start_coding(today)
