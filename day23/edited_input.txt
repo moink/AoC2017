@@ -1,0 +1,8 @@
+for b in range(-91900, -108901, -17):
+    found = false
+    for d in range(2, b, -1)
+        for e in range(2, b, - 1)
+            if d * e == b:
+                found = true
+    if found
+        h = h - 1

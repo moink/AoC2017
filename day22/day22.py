@@ -78,29 +78,20 @@ class ComputeCluster(advent_tools.PlottingGrid):
 
 def run_part_1():
     grid = ComputeCluster()
-    # grid.show()
     infected_steps = 0
     for _ in range(10000):
         infected_steps += grid.take_part_one_step()
-        # print(grid.xpos, grid.ypos)
-        # grid.draw()
-    # grid.show()
     return(infected_steps)
 
 def run_part_2():
     grid = ComputeCluster()
     infected_steps = 0
-    start = time.perf_counter()
     num_steps = 10000000
-    ratio = 10000000 / num_steps
     for _ in range(num_steps):
         infected_steps += grid.take_part_two_step()
-    elapsed = time.perf_counter() - start
-    print(elapsed)
-    print(ratio * elapsed)
     return (infected_steps)
 
 
 if __name__ == '__main__':
-    # print(run_part_1())
-    print(run_part_2()) # 2487 is too low
+    print(run_part_1())
+    print(run_part_2())

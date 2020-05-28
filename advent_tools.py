@@ -607,6 +607,25 @@ class Computer(abc.ABC):
         func = self.operation_map[words[0]]
         func(self, *words[1:])
 
+    def get_key_or_val(self, key_or_val):
+        """Get either a register value or the value of an integer
+
+        Args:
+            key_or_val: str
+                Name of the register to get, or explicit value (the string
+                representation of an integer)
+
+        Returns:
+            val: int
+                If key_or_val can be converted to an integer, that integer.
+                Otherwise, the value in the register with that name
+        """
+        try:
+            val = int(key_or_val)
+        except ValueError:
+            val = self.registers[key_or_val]
+        return val
+
     def run_program(self, program):
         """Run a list of instructions through the virtual machine
 
@@ -782,5 +801,5 @@ def read_all_integers():
 
 if __name__ == '__main__':
     # start_coding_today()
-    today = 22
+    today = 24
     start_coding(today)
