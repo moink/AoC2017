@@ -782,5 +782,5 @@ def read_all_integers():
 
 if __name__ == '__main__':
     # start_coding_today()
-    today = 21
+    today = 22
     start_coding(today)
